@@ -9,6 +9,10 @@ COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 
+# --- FIX: Add executable permission to the Maven wrapper ---
+# This resolves the "Permission denied" error (exit code 126).
+RUN chmod +x ./mvnw
+
 # Pre-download dependencies (better caching)
 RUN ./mvnw dependency:go-offline -B
 
