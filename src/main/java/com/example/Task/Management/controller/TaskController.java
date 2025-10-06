@@ -25,7 +25,7 @@ public class TaskController {
     private TaskRepository taskRepository;
 
     @PostMapping("/create-task")
-    public ResponseEntity<?> createTask(@RequestBody TaskEntity task)
+    public ResponseEntity<?> createTask(@RequestBody TaskEntity task)    // to create a new task
     {
         if(taskService.canCreateTask(task))
         {
@@ -36,14 +36,14 @@ public class TaskController {
         return new ResponseEntity<>("Bad Request or Assigning More than 10 tasks",HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/update-task/{taskId}")
+    @PutMapping("/update-task/{taskId}")  // update task status by the creator
     public ResponseEntity<?> updateTask(@PathVariable Long taskId,@RequestParam TaskEntity.Status status,@RequestParam Long creatorUserId) {
 
             return taskService.updateTaskStatus(taskId, status, creatorUserId);
 
     }
 
-    @DeleteMapping("/delete-task/{taskId}/{userId}")
+    @DeleteMapping("/delete-task/{taskId}/{userId}")  //delete task by the creator
     public ResponseEntity<?> deleteTask(@PathVariable Long taskId, @PathVariable Long userId)
     {
         if(taskRepository.existsById(taskId))
@@ -56,20 +56,20 @@ public class TaskController {
         }
 
     }
-    @GetMapping("/get-all-status/{assignerId}/{status}")
+    @GetMapping("/get-all-status/{assignerId}/{status}")  //show all the tasks of users by status
    public List<TaskEntity> getTasksByStatus(@PathVariable Long assignerId, @PathVariable TaskEntity.Status status)
     {
         return taskService.listAssignedTasksById(assignerId,status,null);
     }
 
-    @GetMapping("/get-all-date/{assignerId}")
+    @GetMapping("/get-all-date/{assignerId}")  // show all the tasks of users before a date
     public List<TaskEntity> getTasksByDate(@PathVariable Long assignerId, @RequestParam LocalDate date)
     {
         return taskService.listAssignedTasksById(assignerId,null,date);
 
     }
 
-    @GetMapping("/get-all-tasks/{assignerId}")
+    @GetMapping("/get-all-tasks/{assignerId}")  //get all the tasks of a particular user
     public List<TaskEntity> getTasksByAssignerId(@PathVariable Long assignerId)
     {
         return taskService.listAssignedTasksById(assignerId,null,null);

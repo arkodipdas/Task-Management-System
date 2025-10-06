@@ -26,10 +26,16 @@ public class UserController
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/create-user")
+    @PostMapping("/create-user")    // create a new user
     public ResponseEntity<?> createUser(@RequestBody UserEntity user)
     {
-            return userService.addNewUser(user);
+        return userService.addNewUser(user);
+    }
+
+    @GetMapping("/all")   // get all the users
+    public List<UserEntity> viewAllUsers()
+    {
+        return userService.viewAllUsers();
     }
 
 
